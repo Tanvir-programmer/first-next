@@ -3,82 +3,83 @@
 import React, { useState, useEffect } from 'react';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Adds a shadow and background blur when the user scrolls down
+  // Handle scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: 'Solutions', href: '#' },
+    { name: 'Products', href: '#' },
+    { name: 'Resources', href: '#' },
+    { name: 'Pricing', href: '#' },
+  ];
+
   return (
-    <nav 
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? "bg-white/80 backdrop-blur-md shadow-lg py-2" 
-          : "bg-transparent py-4"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${
+      isScrolled ? "top-4 px-4" : "top-0 px-0"
+    }`}>
+      <div className={`max-w-7xl mx-auto transition-all duration-500 ${
+        isScrolled 
+        ? "bg-white/70 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] rounded-2xl px-6 py-3" 
+        : "bg-transparent px-8 py-6"
+      }`}>
+        <div className="flex items-center justify-between">
           
-          {/* Logo with Gradient Text */}
-          <div className="flex-shrink-0 flex items-center group cursor-pointer">
-            <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center mr-3 group-hover:rotate-12 transition-transform duration-300">
-              <span className="text-white font-bold text-xl">B</span>
+          {/* Logo */}
+          <div className="flex items-center gap-2 group cursor-pointer">
+            <div className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:rotate-6 transition-transform">
+              <span className="text-white font-black text-xl">F</span>
             </div>
-            <span className="text-2xl font-extrabold tracking-tight text-slate-900">
-              Brand<span className="text-blue-600">Logo</span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">
+              Future<span className="text-indigo-600">Sync</span>
             </span>
           </div>
 
-          {/* Desktop Menu - High End Spacing */}
-          <div className="hidden md:flex items-center space-x-10">
-            {['Home', 'Services', 'Case Studies', 'About'].map((item) => (
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
               <a 
-                key={item}
-                href={`#${item.toLowerCase()}`} 
-                className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors duration-200 relative group"
+                key={link.name} 
+                href={link.href}
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative group"
               >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
               </a>
             ))}
-            
-            <button className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95">
-              Contact Us
+          </div>
+
+          {/* Action Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            <button className="text-sm font-semibold text-slate-700 hover:text-indigo-600">Log in</button>
+            <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-600 hover:scale-105 transition-all active:scale-95 shadow-lg shadow-slate-200">
+              Get Started
             </button>
           </div>
 
-          {/* Animated Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button 
-              onClick={() => setIsOpen(!isOpen)} 
-              className="text-slate-900 focus:outline-none p-2 rounded-lg bg-slate-100"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+          {/* Mobile Toggle */}
+          <button className="md:hidden p-2 text-slate-600" onClick={() => setMobileOpen(!mobileOpen)}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={mobileOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu with Slide-down Animation */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}>
-        <div className="bg-white border-t border-slate-100 px-6 py-6 space-y-4 shadow-xl">
-          <a href="#" className="block text-base font-medium text-slate-700 hover:text-blue-600">Home</a>
-          <a href="#" className="block text-base font-medium text-slate-700 hover:text-blue-600">Services</a>
-          <a href="#" className="block text-base font-medium text-slate-700 hover:text-blue-600">About</a>
-          <button className="w-full bg-blue-600 text-white px-4 py-3 rounded-xl font-bold">Get Started</button>
+        {/* Mobile Menu */}
+        <div className={`md:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"}`}>
+          <div className="flex flex-col gap-4 pb-4">
+            {navLinks.map((link) => (
+              <a key={link.name} href={link.href} className="text-lg font-medium text-slate-700">{link.name}</a>
+            ))}
+            <hr className="border-slate-100" />
+            <button className="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold">Sign Up Free</button>
+          </div>
         </div>
       </div>
     </nav>
