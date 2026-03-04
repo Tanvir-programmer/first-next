@@ -1,14 +1,29 @@
 "use client";
-// import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
-  // const [count, setCount] = useState(0);
+  const handleClick = async () => {
+    let data = {
+      name: "Tanvir",
+      role: "Coder",
+    };
+    let a = await fetch("/api/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    let res = await a.json();
+    console.log(res);
+  };
   return (
     <div>
-      {/* The Number is {count}
-      <br />
-      <button onClick={() => setCount(count + 1)}>Add</button> */}
+      <h1 className="text-xl font-bold">Next Js Api Route Demo</h1>
+      <button onClick={handleClick} className="bg-green-600">
+        Click Me{" "}
+      </button>
     </div>
   );
 }
