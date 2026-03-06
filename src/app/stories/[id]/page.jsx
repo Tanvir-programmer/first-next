@@ -86,7 +86,9 @@ const StoryDetailsPage = async ({ params }) => {
           <h1 className="text-2xl font-semibold">{singleStory.name}</h1>
           <p className="text-gray-700">{singleStory.designation}</p>
           <p className="text-blue-600">{singleStory.company}</p>
-          <p className="text-gray-600 mt-1">Experience: {singleStory.experience}</p>
+          <p className="text-gray-600 mt-1">
+            Experience: {singleStory.experience}
+          </p>
         </div>
       </div>
 
@@ -118,6 +120,6 @@ const StoryDetailsPage = async ({ params }) => {
       </div>
     </div>
   );
-}
+};
 
 export default StoryDetailsPage;

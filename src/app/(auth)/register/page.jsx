@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../_components/Title";
+import Title from "../../_components/Title";
 
 const Register = () => {
   return (
